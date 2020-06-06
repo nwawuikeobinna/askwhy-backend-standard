@@ -62,6 +62,7 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const errors = validationResult(req);
+  
 
   if (!errors.isEmpty()) {
     const error = new Error("Oops, something went wrong ");
