@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
 const keys = require("../../config/keys");
 const User = require("../../models/user");
@@ -7,6 +7,7 @@ const User = require("../../models/user");
 const { returnUser } = require("../../helpers/returnUser");
 const { generateToken } = require("../../helpers/generateToken");
 const { getUserIdToken } = require("../../helpers/getUserIdToken");
+
 
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -46,7 +47,7 @@ exports.signup = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message:
-        "Account created successfully. Please check your email to get started.",
+        "Account created successfully..",
     });
 
     // Send a complete signup email to user mail box
@@ -58,3 +59,40 @@ exports.signup = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.login = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Oops, something went wrong ");
+    error.statusCode = 401;
+    error.data = errors.array();
+    throw error;
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    const user = await returnUser(email);
+    const isEqual = await bcrypt.compare(password, user.password);
+
+    if (!isEqual) {
+      const error = new Error("Wrong Password");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    res.status(200).json({
+      token: generateToken(user._id),
+      user,
+      message: "Login successfully",
+    });
+    
+  } catch (err) {
+    if(!err.statusCode) {
+      err.statusCode = 500
+    }
+    next(err);
+  }
+
+}
