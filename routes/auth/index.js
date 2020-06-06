@@ -5,7 +5,7 @@ const isAuth = require('../../middlewares/is-auth');  //To check if the user is 
 
 const router = express.Router();
 
-router.get('/test', (req, res) => res.json({msg:"It works"}));
+router.get('/test', (req, res) => res.json({msg:"It works..."}));
 
 router.post('/signup', [
     body('name')
