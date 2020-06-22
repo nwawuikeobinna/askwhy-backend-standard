@@ -1,16 +1,18 @@
 const express = require("express");
-const bodyParser = require('body-parser');
-const multer = require('multer');  // For image upload
-const path = require('path');
-const helment = require('helmet'); // To protect our routes(like security)
-const cors = require('cors'); 
+const bodyParser = require("body-parser");
+const multer = require("multer"); // For image upload
+const path = require("path");
+const helment = require("helmet"); // To protect our routes(like security)
+const cors = require("cors");
 const mongoose = require("mongoose");
-const compression = require('compression');
+const compression = require("compression");
 
 const db = require("./config/keys").MONGODB_URI;
 
 // Routes
 const authRoutes = require("./routes/auth");
+const profileRoutes = require("./routes/profile");
+const postRoutes = require("./routes/post");
 
 const app = express();
 
@@ -59,6 +61,20 @@ app.use(compression());
 
 // Using the Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth", profileRoutes);
+app.use("/api/v1/auth", postRoutes);
+
+//
+app.use((error, req, res, next) => {
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+
+  res.status(status).json({
+    message: message,
+    data: data,
+  });
+});
 
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -70,5 +86,4 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
-  })
-
+  });

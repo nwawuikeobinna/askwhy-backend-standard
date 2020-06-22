@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //Create Schema
-const profileSchema = new Schema({
+const ProfileSchema = new Schema({
   // associating the user with profile
   user: {
     type: Schema.Types.ObjectId, //associating user with profile
@@ -116,4 +116,4 @@ const profileSchema = new Schema({
   },
 });
 
-module.exports = Profile = mongoose.model("profile", profileSchema);
+module.exports = Profile = mongoose.model("profile", ProfileSchema);

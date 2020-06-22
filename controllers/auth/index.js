@@ -8,7 +8,6 @@ const { returnUser } = require("../../helpers/returnUser");
 const { generateToken } = require("../../helpers/generateToken");
 const { getUserIdToken } = require("../../helpers/getUserIdToken");
 
-
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
   const { name, email, password } = req.body;
@@ -46,8 +45,7 @@ exports.signup = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message:
-        "Account created successfully..",
+      message: "Account created successfully..",
     });
 
     // Send a complete signup email to user mail box
@@ -62,7 +60,6 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const errors = validationResult(req);
-  
 
   if (!errors.isEmpty()) {
     const error = new Error("Oops, something went wrong ");
@@ -75,6 +72,7 @@ exports.login = async (req, res, next) => {
 
   try {
     const user = await returnUser(email);
+
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
@@ -88,12 +86,10 @@ exports.login = async (req, res, next) => {
       user,
       message: "Login successfully",
     });
-    
   } catch (err) {
-    if(!err.statusCode) {
-      err.statusCode = 500
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
     next(err);
   }
-
-}
+};
