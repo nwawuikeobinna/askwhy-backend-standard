@@ -5,6 +5,8 @@ const profileController = require("../../controllers/profile");
 
 const router = express.Router();
 
+router.get("/profiles", profileController.getAllProfiles);
+
 router.get("/profile", isAuth, profileController.getUserProfile);
 
 router.post(
@@ -14,9 +16,12 @@ router.post(
       .isLength({ min: 5 })
       .withMessage("Profile handle is required")
       .trim(),
-    body("status").withMessage("Status field is required").trim(),
-    body("skills").withMessage("Skills field is required").trim(),
+    body("location").withMessage("Location field is required")
+    .withMessage("Profile handle is required").trim(),
+    body("skills").withMessage("Skills field is required")
+    .withMessage("Skills section is required").trim(),
   ],
+  isAuth,
   profileController.profileFields
 );
 
@@ -24,19 +29,19 @@ router.post(
 router.get("/handle/:handle", profileController.getUserHandle);
 
 router.post(
-  "/experience",
+  "/experience/:profileId",
   [
-    body("title")
-      .isLength({ min: 5 })
-      .withMessage("title field is required")
-      .trim(),
     body("company")
       .isLength({ min: 5 })
-      .withMessage("company field is required")
+      .withMessage("Company field is required")
       .trim(),
-    body("from")
+    body("title")
       .isLength({ min: 5 })
-      .withMessage("from field is required")
+      .withMessage("Title field is required")
+      .trim(),
+    body("location")
+      .isLength({ min: 5 })
+      .withMessage("Location field is required")
       .trim(),
   ],
   isAuth,
@@ -44,7 +49,7 @@ router.post(
 );
 
 router.post(
-  "/education",
+  "/education/:profileId",
   [
     body("school")
       .isLength({ min: 5 })
@@ -58,20 +63,16 @@ router.post(
       .isLength({ min: 5 })
       .withMessage("Fieldofstudy is required")
       .trim(),
-    body("from")
-      .isLength({ min: 5 })
-      .withMessage("From field is required")
-      .trim(),
   ],
   isAuth,
   profileController.educationFields
 );
 
-router.delete("/education/education_id", isAuth, profileController.deleteEdu);
+router.delete("/education/:educationId", isAuth, profileController.deleteEdu);
 
 router.delete("/experience/experience_id", isAuth, profileController.deleteExp);
 
 // Delete user and profile
-router.delete("/", isAuth, profileController.deleteUserAndProfile);
+router.delete("/profile", isAuth, profileController.deleteUserAndProfile);
 
 module.exports = router;

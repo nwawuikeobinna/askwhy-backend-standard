@@ -62,7 +62,7 @@ app.use(compression());
 // Using the Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/auth", profileRoutes);
-app.use("/api/v1/auth", postRoutes);
+app.use("/api/v1/", postRoutes);
 
 //
 app.use((error, req, res, next) => {

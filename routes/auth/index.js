@@ -12,13 +12,14 @@ router.post(
   [
     body("name")
       .isLength({ min: 5 })
-      .withMessage("Name field is required")
+      .withMessage("Name field is required and must be at least 5 characters.")
       .trim(),
     body("email")
       .isEmail()
       .withMessage("Please enter a valid email")
       .normalizeEmail(),
-    body("password").trim().isLength({ min: 5 }),
+    body("password").trim().isLength({ min: 5 })
+    .withMessage('Password must not be less than 5 characters length'),
   ],
   authController.signup
 );

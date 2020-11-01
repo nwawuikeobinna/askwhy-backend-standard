@@ -5,13 +5,17 @@ const Schema = mongoose.Schema;
 const ProfileSchema = new Schema({
   // associating the user with profile
   user: {
-    type: Schema.Types.ObjectId, //associating user with profile
+    type: mongoose.Types.ObjectId, //associating user with profile
     ref: "user",
   },
   handle: {
     type: String,
     required: true,
     max: 40,
+  },
+   status: {
+    type: String,
+    required: true,
   },
   company: {
     type: String,
@@ -21,13 +25,11 @@ const ProfileSchema = new Schema({
   },
   location: {
     type: String,
-  },
-  status: {
-    type: String,
     required: true,
   },
   skills: {
     type: [String], //array of string.. in the form its gon be a comma sperated value
+    
   },
   bio: {
     type: String,
@@ -42,16 +44,23 @@ const ProfileSchema = new Schema({
         type: String,
         required: true,
       },
+      status: {
+        type: String,
+        // required: true,
+      },
+      handle: {
+        type: String,
+      },
       company: {
         type: String,
         required: true,
       },
       location: {
         type: String,
+        required: true,
       },
       from: {
         type: Date,
-        required: true,
       },
       to: {
         type: Date,
@@ -89,7 +98,7 @@ const ProfileSchema = new Schema({
       },
       current: {
         type: Boolean,
-        required: true,
+        default: false,
       },
       descripton: {
         type: String,
@@ -98,12 +107,6 @@ const ProfileSchema = new Schema({
   ],
 
   social: {
-    youtube: {
-      type: String,
-    },
-    instagram: {
-      type: String,
-    },
     facebook: {
       type: String,
     },
@@ -111,8 +114,8 @@ const ProfileSchema = new Schema({
       type: String,
     },
     twitter: {
-        type: String,
-      },
+      type: String,
+    },
   },
 });
 

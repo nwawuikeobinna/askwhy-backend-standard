@@ -3,9 +3,8 @@ const keys = require("../config/keys");
 const User = require("../models/user");
 
 const returnUser = async (email) => {
+  const user = await User.findOne({ email: email }).populate("profile");
 
-  const user = await User.findOne({email: email});
-  
   if (!user) {
     const error = new Error("A user with this email could not be found.");
     error.statusCode = 401;
