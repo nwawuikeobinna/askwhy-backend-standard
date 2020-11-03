@@ -13,6 +13,7 @@ const db = require("./config/keys").MONGODB_URI;
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const postRoutes = require("./routes/post");
+const { static } = require("express");
 
 const app = express();
 
@@ -63,6 +64,17 @@ app.use(compression());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/auth", profileRoutes);
 app.use("/api/v1/", postRoutes);
+
+
+// Static asset if in production
+// if(process.env.NODE_ENV === 'production') {
+  // Set the static folder
+//   app.use(express.static('/build'))
+
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
+//   })
+// }
 
 //
 app.use((error, req, res, next) => {

@@ -19,6 +19,7 @@ router.post(
   postController.createPost
 );
 
+// fffff
 router.get("/posts", postController.getPost);
 
 router.get("/posts/:id", postController.getPostById);
